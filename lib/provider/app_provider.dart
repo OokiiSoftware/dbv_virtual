@@ -1,6 +1,7 @@
 import 'package:fast_cached_network_image/fast_cached_network_image.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../model/model.dart';
 import '../util/util.dart';
 import '../res/res.dart';
@@ -17,7 +18,7 @@ class AppProvider {
   static Future<void> initialize({void Function(int, int)? onProgress}) async {
     AppProvider.onProgress = onProgress;
 
-    Gemini.init(apiKey: 'AIzaSyCKPf_l0y7nYdytYctGKtL7ybPPb5pG1xE');
+    Gemini.init(apiKey: dotenv.env['GEMINI_APIKEY'] ?? '');
 
     VersionControlProvider.i.onNewVersion = (value) {
       Log.snack(value ? 'Atualização importante' : 'Nova versão disponível',
