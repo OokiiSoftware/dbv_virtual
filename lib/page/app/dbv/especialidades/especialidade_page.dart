@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:pdf/widgets.dart' as pw;
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import '../../../../provider/provider.dart';
 import '../../../../model/model.dart';
 import '../../../../res/res.dart';
@@ -47,14 +49,12 @@ class _State extends State<EspecialidadePage> {
           }
 
           return ListView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 20
-            ),
+            padding: const EdgeInsets.fromLTRB(10, 20, 10, 80),
             children: [
               Center(
                 child: FotoLayout(
                   path: especialidade.image,
+                  saveTo: especialidade.imageFile,
                   borderRadius: 50,
                   width: 150,
                   fit: BoxFit.fill,
@@ -83,6 +83,11 @@ class _State extends State<EspecialidadePage> {
             ],
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Compartilhar',
+        onPressed: _onShareTap,
+        child: const Icon(Icons.share),
       ),
     );
   }
@@ -128,4 +133,62 @@ class _State extends State<EspecialidadePage> {
     await _provider.getById(especialidade.id);
   }
 
+  void _onShareTap() async {
+    final linhas = especialidade.text.split('\n');
+    List<pw.Widget> childs = [];
+
+    String currentLinha = '';
+    Map<String, List<String>> requisitos = {};
+
+    childs.add(pw.Center(
+      child: pw.Image(pw.MemoryImage(await especialidade.imageFile.readAsBytes())),
+    ));  // image
+    childs.add(pw.Container(
+      width: double.infinity,
+      padding: const pw.EdgeInsets.all(10),
+      child: pw.Text('${especialidade.nome}\n${especialidade.area}',
+        textAlign: pw.TextAlign.center,
+      ),
+    ));  // title
+
+    for (var linha in linhas) {
+      if (linha.isEmpty) continue;
+      bool startNumero = int.tryParse(linha[0]) != null;
+
+      if (startNumero) {
+        requisitos[linha] = [linha];
+        currentLinha = linha;
+      } else {
+        requisitos[currentLinha]?.add(linha);
+      }
+    }
+
+    for (var linha in requisitos.values) {
+      childs.add(pw.Container(
+        width: double.infinity,
+        padding: const pw.EdgeInsets.all(10),
+        child: pw.Text(linha.join('\n')),
+      ));
+    }
+
+    var page = pw.MultiPage(
+      footer: (context) => pw.Container(
+        child: pw.Text('Gerado por: ${VersionControlProvider.i.appName}'),
+      ),
+      build: (pw.Context context) => childs,
+    );
+    final pdf = pw.Document();
+    pdf.addPage(page);
+
+    var file = StorageProvider.i.file(['${especialidade.nome} - ${especialidade.area}.pdf']);
+    await file.writeAsBytes(await pdf.save());
+
+    final res = await Share.shareXFiles([
+      XFile(file.path),
+    ]);
+
+    if (res.status == ShareResultStatus.success) {
+      await file.delete();
+    }
+  }
 }
