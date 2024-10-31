@@ -1,44 +1,45 @@
 name: dbv_virtual
 description: "Gerenciamento de clube de desbravadores"
 
-version: 1.4.6+46
+version: 1.4.7+47
 
 environment:
   sdk: '>=3.4.1 <4.0.0'
 
 dependencies:
-  audioplayers: ^6.0.0
+  audioplayers: ^6.1.0
   clipboard: ^0.1.3
   crop_image: ^1.0.13
-  cupertino_icons: ^1.0.6
-  dio: ^5.5.0+1
+  cupertino_icons: ^1.0.8
+  dio: ^5.7.0
   email_validator: ^3.0.0
   extended_masked_text: ^3.0.1
   fast_cached_network_image: ^1.2.9
-  file_picker: ^8.0.6
-  firebase_auth: ^5.1.1
-  firebase_core: ^3.1.1
-  flutter_dotenv: ^5.1.0
-  flutter_gemini: ^2.0.4
+  file_picker: ^8.1.3
+  firebase_auth: ^5.3.1
+  firebase_core: ^3.6.0
+  flutter_dotenv: ^5.2.1
+  flutter_gemini: ^2.0.5
   flutter_colorpicker: ^1.1.0
   html: ^0.15.4
-  http: ^1.2.1
+  http: ^1.2.2
   image_compression_flutter: ^1.0.4
   image_picker: ^1.1.2
-  internet_connection_checker_plus: ^2.5.0
+  internet_connection_checker_plus: ^2.5.2
   intl: ^0.19.0
   network_to_file_image: ^6.0.1
-  package_info_plus: ^8.0.0
-  path_provider: ^2.1.3
-  pdf: ^3.11.0
+  package_info_plus: ^8.1.0
+  path_provider: ^2.1.4
+  pdf: ^3.11.1
   pdf_compressor: ^0.2.0
   provider: ^6.1.2
-  shared_preferences: ^2.2.3
-  syncfusion_flutter_calendar: ^26.2.9
-  syncfusion_flutter_charts: ^26.2.9
-  syncfusion_flutter_datagrid: ^26.2.5
-  syncfusion_flutter_pdfviewer: ^26.1.41
-  url_launcher: ^6.3.0
+  share_plus: ^10.1.1
+  shared_preferences: ^2.3.2
+  syncfusion_flutter_calendar: ^27.1.57
+  syncfusion_flutter_charts: ^27.1.57
+  syncfusion_flutter_datagrid: ^27.1.57
+  syncfusion_flutter_pdfviewer: ^27.1.57
+  url_launcher: ^6.3.1
   flutter:
     sdk: flutter
   flutter_localizations:
